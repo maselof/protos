@@ -1,4 +1,4 @@
-module protos
+module github.com/maselof/protos
 
 go 1.21
 
