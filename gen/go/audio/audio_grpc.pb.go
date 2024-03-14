@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AudioServiceClient interface {
-	StreamAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (*AudioResponse, error)
+	StreamAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (AudioService_StreamAudioClient, error)
 }
 
 type audioServiceClient struct {
@@ -29,20 +29,43 @@ func NewAudioServiceClient(cc grpc.ClientConnInterface) AudioServiceClient {
 	return &audioServiceClient{cc}
 }
 
-func (c *audioServiceClient) StreamAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (*AudioResponse, error) {
-	out := new(AudioResponse)
-	err := c.cc.Invoke(ctx, "/music.AudioService/StreamAudio", in, out, opts...)
+func (c *audioServiceClient) StreamAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (AudioService_StreamAudioClient, error) {
+	stream, err := c.cc.NewStream(ctx, &AudioService_ServiceDesc.Streams[0], "/music.AudioService/StreamAudio", opts...)
 	if err != nil {
 		return nil, err
 	}
-	return out, nil
+	x := &audioServiceStreamAudioClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type AudioService_StreamAudioClient interface {
+	Recv() (*AudioResponse, error)
+	grpc.ClientStream
+}
+
+type audioServiceStreamAudioClient struct {
+	grpc.ClientStream
+}
+
+func (x *audioServiceStreamAudioClient) Recv() (*AudioResponse, error) {
+	m := new(AudioResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // AudioServiceServer is the server API for AudioService service.
 // All implementations must embed UnimplementedAudioServiceServer
 // for forward compatibility
 type AudioServiceServer interface {
-	StreamAudio(context.Context, *AudioRequest) (*AudioResponse, error)
+	StreamAudio(*AudioRequest, AudioService_StreamAudioServer) error
 	mustEmbedUnimplementedAudioServiceServer()
 }
 
@@ -50,8 +73,8 @@ type AudioServiceServer interface {
 type UnimplementedAudioServiceServer struct {
 }
 
-func (UnimplementedAudioServiceServer) StreamAudio(context.Context, *AudioRequest) (*AudioResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method StreamAudio not implemented")
+func (UnimplementedAudioServiceServer) StreamAudio(*AudioRequest, AudioService_StreamAudioServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamAudio not implemented")
 }
 func (UnimplementedAudioServiceServer) mustEmbedUnimplementedAudioServiceServer() {}
 
@@ -66,22 +89,25 @@ func RegisterAudioServiceServer(s grpc.ServiceRegistrar, srv AudioServiceServer)
 	s.RegisterService(&AudioService_ServiceDesc, srv)
 }
 
-func _AudioService_StreamAudio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AudioRequest)
-	if err := dec(in); err != nil {
-		return nil, err
+func _AudioService_StreamAudio_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(AudioRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
 	}
-	if interceptor == nil {
-		return srv.(AudioServiceServer).StreamAudio(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/music.AudioService/StreamAudio",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AudioServiceServer).StreamAudio(ctx, req.(*AudioRequest))
-	}
-	return interceptor(ctx, in, info, handler)
+	return srv.(AudioServiceServer).StreamAudio(m, &audioServiceStreamAudioServer{stream})
+}
+
+type AudioService_StreamAudioServer interface {
+	Send(*AudioResponse) error
+	grpc.ServerStream
+}
+
+type audioServiceStreamAudioServer struct {
+	grpc.ServerStream
+}
+
+func (x *audioServiceStreamAudioServer) Send(m *AudioResponse) error {
+	return x.ServerStream.SendMsg(m)
 }
 
 // AudioService_ServiceDesc is the grpc.ServiceDesc for AudioService service.
@@ -90,12 +116,13 @@ func _AudioService_StreamAudio_Handler(srv interface{}, ctx context.Context, dec
 var AudioService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "music.AudioService",
 	HandlerType: (*AudioServiceServer)(nil),
-	Methods: []grpc.MethodDesc{
+	Methods:     []grpc.MethodDesc{},
+	Streams: []grpc.StreamDesc{
 		{
-			MethodName: "StreamAudio",
-			Handler:    _AudioService_StreamAudio_Handler,
+			StreamName:    "StreamAudio",
+			Handler:       _AudioService_StreamAudio_Handler,
+			ServerStreams: true,
 		},
 	},
-	Streams:  []grpc.StreamDesc{},
 	Metadata: "audio/audio.proto",
 }

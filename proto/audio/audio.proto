@@ -5,7 +5,7 @@ package music;
 option go_package = "maselof/audio/v1;audiov1";
 
 service AudioService {
-  rpc StreamAudio (AudioRequest) returns (AudioResponse);
+  rpc StreamAudio (AudioRequest) returns (stream AudioResponse);
 }
 
 message AudioRequest {
