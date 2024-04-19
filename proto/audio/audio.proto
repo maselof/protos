@@ -15,3 +15,26 @@ message AudioRequest {
 message  AudioResponse {
   bytes audio_chunk = 1;
 }
+
+service Users {
+  rpc RegisterUser (UserRegRequest) returns (UserResponse);
+  rpc LoginUser (UserLogRequest) returns (UserResponse);
+  rpc DeleteUser (UserLogRequest) returns (UserResponse);
+}
+
+message UserRegRequest {
+  string username = 1;
+  string password = 2;
+  bool is_performer = 3;
+}
+
+message UserLogRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message UserResponse {
+  string username = 1;
+  string password = 2;
+  bool is_performer = 3;
+}
