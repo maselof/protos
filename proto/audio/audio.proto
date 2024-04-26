@@ -13,7 +13,6 @@ service AudioService {
 }
 
 message AudioRequest {
-  int64 audio_id = 1;
   string audio_name = 2;
   string performer_name = 3;
   AudioStream chunk = 4;
