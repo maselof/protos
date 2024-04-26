@@ -5,11 +5,10 @@ package music;
 option go_package = "maselof/audio/v1;audiov1";
 
 service AudioService {
-  rpc StreamAudio (AudioIDRequest) returns (stream AudioStreamResponse);
+  rpc StreamAudio (AudioIDRequest) returns (stream AudioStream);
   rpc LikeAudio (AudioLikeRequest) returns (AudioResponse);
-  rpc DownloadAudio (AudioIDRequest) returns (stream AudioStreamResponse);
+  rpc DownloadAudio (AudioIDRequest) returns (stream AudioStream);
   rpc SearchAudio (AudioSearchNameRequest) returns (AudioListResponse);
-  rpc AddAudio(AudioRequest) returns (AudioResponse);
   rpc UploadAudio (stream AudioRequest) returns (AudioResponse);
 }
 
@@ -17,15 +16,12 @@ message AudioRequest {
   int64 audio_id = 1;
   string audio_name = 2;
   string performer_name = 3;
+  repeated AudioStream chunk = 4;
 }
 
 message AudioLikeRequest {
   int64 audio_id = 1;
   string username = 2;
-}
-
-message AudioFileRequest {
-  bytes audio_chunk = 1;
 }
 
 message AudioIDRequest {
@@ -36,7 +32,7 @@ message AudioSearchNameRequest {
   string name = 1;
 }
 
-message AudioStreamResponse {
+message AudioStream {
   bytes audio_chunk = 1;
 }
 
