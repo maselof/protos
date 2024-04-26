@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AudioServiceClient interface {
 	StreamAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (AudioService_StreamAudioClient, error)
-	LikeAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (*AudioResponse, error)
+	LikeAudio(ctx context.Context, in *AudioLikeRequest, opts ...grpc.CallOption) (*AudioResponse, error)
 	DownloadAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (AudioService_DownloadAudioClient, error)
 	SearchAudio(ctx context.Context, in *AudioSearchNameRequest, opts ...grpc.CallOption) (*AudioListResponse, error)
 	AddAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (*AudioResponse, error)
@@ -66,7 +66,7 @@ func (x *audioServiceStreamAudioClient) Recv() (*AudioStreamResponse, error) {
 	return m, nil
 }
 
-func (c *audioServiceClient) LikeAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (*AudioResponse, error) {
+func (c *audioServiceClient) LikeAudio(ctx context.Context, in *AudioLikeRequest, opts ...grpc.CallOption) (*AudioResponse, error) {
 	out := new(AudioResponse)
 	err := c.cc.Invoke(ctx, "/music.AudioService/LikeAudio", in, out, opts...)
 	if err != nil {
@@ -164,7 +164,7 @@ func (x *audioServiceUploadAudioClient) CloseAndRecv() (*AudioResponse, error) {
 // for forward compatibility
 type AudioServiceServer interface {
 	StreamAudio(*AudioIDRequest, AudioService_StreamAudioServer) error
-	LikeAudio(context.Context, *AudioIDRequest) (*AudioResponse, error)
+	LikeAudio(context.Context, *AudioLikeRequest) (*AudioResponse, error)
 	DownloadAudio(*AudioIDRequest, AudioService_DownloadAudioServer) error
 	SearchAudio(context.Context, *AudioSearchNameRequest) (*AudioListResponse, error)
 	AddAudio(context.Context, *AudioRequest) (*AudioResponse, error)
@@ -179,7 +179,7 @@ type UnimplementedAudioServiceServer struct {
 func (UnimplementedAudioServiceServer) StreamAudio(*AudioIDRequest, AudioService_StreamAudioServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamAudio not implemented")
 }
-func (UnimplementedAudioServiceServer) LikeAudio(context.Context, *AudioIDRequest) (*AudioResponse, error) {
+func (UnimplementedAudioServiceServer) LikeAudio(context.Context, *AudioLikeRequest) (*AudioResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LikeAudio not implemented")
 }
 func (UnimplementedAudioServiceServer) DownloadAudio(*AudioIDRequest, AudioService_DownloadAudioServer) error {
@@ -229,7 +229,7 @@ func (x *audioServiceStreamAudioServer) Send(m *AudioStreamResponse) error {
 }
 
 func _AudioService_LikeAudio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AudioIDRequest)
+	in := new(AudioLikeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -241,7 +241,7 @@ func _AudioService_LikeAudio_Handler(srv interface{}, ctx context.Context, dec f
 		FullMethod: "/music.AudioService/LikeAudio",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AudioServiceServer).LikeAudio(ctx, req.(*AudioIDRequest))
+		return srv.(AudioServiceServer).LikeAudio(ctx, req.(*AudioLikeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

@@ -6,7 +6,7 @@ option go_package = "maselof/audio/v1;audiov1";
 
 service AudioService {
   rpc StreamAudio (AudioIDRequest) returns (stream AudioStreamResponse);
-  rpc LikeAudio (AudioIDRequest) returns (AudioResponse);
+  rpc LikeAudio (AudioLikeRequest) returns (AudioResponse);
   rpc DownloadAudio (AudioIDRequest) returns (stream AudioStreamResponse);
   rpc SearchAudio (AudioSearchNameRequest) returns (AudioListResponse);
   rpc AddAudio(AudioRequest) returns (AudioResponse);
@@ -17,6 +17,11 @@ message AudioRequest {
   int64 audio_id = 1;
   string audio_name = 2;
   string performer_name = 3;
+}
+
+message AudioLikeRequest {
+  int64 audio_id = 1;
+  string username = 2;
 }
 
 message AudioFileRequest {
