@@ -16,7 +16,7 @@ message AudioRequest {
   int64 audio_id = 1;
   string audio_name = 2;
   string performer_name = 3;
-  repeated AudioStream chunk = 4;
+  AudioStream chunk = 4;
 }
 
 message AudioLikeRequest {
