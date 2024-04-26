@@ -35,6 +35,5 @@ message UserLogRequest {
 
 message UserResponse {
   string username = 1;
-  string password = 2;
   bool is_performer = 3;
 }
