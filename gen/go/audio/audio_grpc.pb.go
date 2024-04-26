@@ -18,7 +18,12 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AudioServiceClient interface {
-	StreamAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (AudioService_StreamAudioClient, error)
+	StreamAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (AudioService_StreamAudioClient, error)
+	LikeAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (*AudioResponse, error)
+	DownloadAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (AudioService_DownloadAudioClient, error)
+	SearchAudio(ctx context.Context, in *AudioSearchNameRequest, opts ...grpc.CallOption) (*AudioListResponse, error)
+	AddAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (*AudioResponse, error)
+	UploadAudio(ctx context.Context, opts ...grpc.CallOption) (AudioService_UploadAudioClient, error)
 }
 
 type audioServiceClient struct {
@@ -29,7 +34,7 @@ func NewAudioServiceClient(cc grpc.ClientConnInterface) AudioServiceClient {
 	return &audioServiceClient{cc}
 }
 
-func (c *audioServiceClient) StreamAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (AudioService_StreamAudioClient, error) {
+func (c *audioServiceClient) StreamAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (AudioService_StreamAudioClient, error) {
 	stream, err := c.cc.NewStream(ctx, &AudioService_ServiceDesc.Streams[0], "/music.AudioService/StreamAudio", opts...)
 	if err != nil {
 		return nil, err
@@ -45,7 +50,7 @@ func (c *audioServiceClient) StreamAudio(ctx context.Context, in *AudioRequest, 
 }
 
 type AudioService_StreamAudioClient interface {
-	Recv() (*AudioResponse, error)
+	Recv() (*AudioStreamResponse, error)
 	grpc.ClientStream
 }
 
@@ -53,7 +58,100 @@ type audioServiceStreamAudioClient struct {
 	grpc.ClientStream
 }
 
-func (x *audioServiceStreamAudioClient) Recv() (*AudioResponse, error) {
+func (x *audioServiceStreamAudioClient) Recv() (*AudioStreamResponse, error) {
+	m := new(AudioStreamResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *audioServiceClient) LikeAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (*AudioResponse, error) {
+	out := new(AudioResponse)
+	err := c.cc.Invoke(ctx, "/music.AudioService/LikeAudio", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *audioServiceClient) DownloadAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (AudioService_DownloadAudioClient, error) {
+	stream, err := c.cc.NewStream(ctx, &AudioService_ServiceDesc.Streams[1], "/music.AudioService/DownloadAudio", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &audioServiceDownloadAudioClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type AudioService_DownloadAudioClient interface {
+	Recv() (*AudioStreamResponse, error)
+	grpc.ClientStream
+}
+
+type audioServiceDownloadAudioClient struct {
+	grpc.ClientStream
+}
+
+func (x *audioServiceDownloadAudioClient) Recv() (*AudioStreamResponse, error) {
+	m := new(AudioStreamResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *audioServiceClient) SearchAudio(ctx context.Context, in *AudioSearchNameRequest, opts ...grpc.CallOption) (*AudioListResponse, error) {
+	out := new(AudioListResponse)
+	err := c.cc.Invoke(ctx, "/music.AudioService/SearchAudio", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *audioServiceClient) AddAudio(ctx context.Context, in *AudioRequest, opts ...grpc.CallOption) (*AudioResponse, error) {
+	out := new(AudioResponse)
+	err := c.cc.Invoke(ctx, "/music.AudioService/AddAudio", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *audioServiceClient) UploadAudio(ctx context.Context, opts ...grpc.CallOption) (AudioService_UploadAudioClient, error) {
+	stream, err := c.cc.NewStream(ctx, &AudioService_ServiceDesc.Streams[2], "/music.AudioService/UploadAudio", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &audioServiceUploadAudioClient{stream}
+	return x, nil
+}
+
+type AudioService_UploadAudioClient interface {
+	Send(*AudioRequest) error
+	CloseAndRecv() (*AudioResponse, error)
+	grpc.ClientStream
+}
+
+type audioServiceUploadAudioClient struct {
+	grpc.ClientStream
+}
+
+func (x *audioServiceUploadAudioClient) Send(m *AudioRequest) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *audioServiceUploadAudioClient) CloseAndRecv() (*AudioResponse, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
 	m := new(AudioResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -65,7 +163,12 @@ func (x *audioServiceStreamAudioClient) Recv() (*AudioResponse, error) {
 // All implementations must embed UnimplementedAudioServiceServer
 // for forward compatibility
 type AudioServiceServer interface {
-	StreamAudio(*AudioRequest, AudioService_StreamAudioServer) error
+	StreamAudio(*AudioIDRequest, AudioService_StreamAudioServer) error
+	LikeAudio(context.Context, *AudioIDRequest) (*AudioResponse, error)
+	DownloadAudio(*AudioIDRequest, AudioService_DownloadAudioServer) error
+	SearchAudio(context.Context, *AudioSearchNameRequest) (*AudioListResponse, error)
+	AddAudio(context.Context, *AudioRequest) (*AudioResponse, error)
+	UploadAudio(AudioService_UploadAudioServer) error
 	mustEmbedUnimplementedAudioServiceServer()
 }
 
@@ -73,8 +176,23 @@ type AudioServiceServer interface {
 type UnimplementedAudioServiceServer struct {
 }
 
-func (UnimplementedAudioServiceServer) StreamAudio(*AudioRequest, AudioService_StreamAudioServer) error {
+func (UnimplementedAudioServiceServer) StreamAudio(*AudioIDRequest, AudioService_StreamAudioServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamAudio not implemented")
+}
+func (UnimplementedAudioServiceServer) LikeAudio(context.Context, *AudioIDRequest) (*AudioResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LikeAudio not implemented")
+}
+func (UnimplementedAudioServiceServer) DownloadAudio(*AudioIDRequest, AudioService_DownloadAudioServer) error {
+	return status.Errorf(codes.Unimplemented, "method DownloadAudio not implemented")
+}
+func (UnimplementedAudioServiceServer) SearchAudio(context.Context, *AudioSearchNameRequest) (*AudioListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchAudio not implemented")
+}
+func (UnimplementedAudioServiceServer) AddAudio(context.Context, *AudioRequest) (*AudioResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAudio not implemented")
+}
+func (UnimplementedAudioServiceServer) UploadAudio(AudioService_UploadAudioServer) error {
+	return status.Errorf(codes.Unimplemented, "method UploadAudio not implemented")
 }
 func (UnimplementedAudioServiceServer) mustEmbedUnimplementedAudioServiceServer() {}
 
@@ -90,7 +208,7 @@ func RegisterAudioServiceServer(s grpc.ServiceRegistrar, srv AudioServiceServer)
 }
 
 func _AudioService_StreamAudio_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(AudioRequest)
+	m := new(AudioIDRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
@@ -98,7 +216,7 @@ func _AudioService_StreamAudio_Handler(srv interface{}, stream grpc.ServerStream
 }
 
 type AudioService_StreamAudioServer interface {
-	Send(*AudioResponse) error
+	Send(*AudioStreamResponse) error
 	grpc.ServerStream
 }
 
@@ -106,8 +224,109 @@ type audioServiceStreamAudioServer struct {
 	grpc.ServerStream
 }
 
-func (x *audioServiceStreamAudioServer) Send(m *AudioResponse) error {
+func (x *audioServiceStreamAudioServer) Send(m *AudioStreamResponse) error {
 	return x.ServerStream.SendMsg(m)
+}
+
+func _AudioService_LikeAudio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AudioIDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AudioServiceServer).LikeAudio(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/music.AudioService/LikeAudio",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AudioServiceServer).LikeAudio(ctx, req.(*AudioIDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AudioService_DownloadAudio_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(AudioIDRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(AudioServiceServer).DownloadAudio(m, &audioServiceDownloadAudioServer{stream})
+}
+
+type AudioService_DownloadAudioServer interface {
+	Send(*AudioStreamResponse) error
+	grpc.ServerStream
+}
+
+type audioServiceDownloadAudioServer struct {
+	grpc.ServerStream
+}
+
+func (x *audioServiceDownloadAudioServer) Send(m *AudioStreamResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _AudioService_SearchAudio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AudioSearchNameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AudioServiceServer).SearchAudio(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/music.AudioService/SearchAudio",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AudioServiceServer).SearchAudio(ctx, req.(*AudioSearchNameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AudioService_AddAudio_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AudioRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AudioServiceServer).AddAudio(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/music.AudioService/AddAudio",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AudioServiceServer).AddAudio(ctx, req.(*AudioRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AudioService_UploadAudio_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(AudioServiceServer).UploadAudio(&audioServiceUploadAudioServer{stream})
+}
+
+type AudioService_UploadAudioServer interface {
+	SendAndClose(*AudioResponse) error
+	Recv() (*AudioRequest, error)
+	grpc.ServerStream
+}
+
+type audioServiceUploadAudioServer struct {
+	grpc.ServerStream
+}
+
+func (x *audioServiceUploadAudioServer) SendAndClose(m *AudioResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *audioServiceUploadAudioServer) Recv() (*AudioRequest, error) {
+	m := new(AudioRequest)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 // AudioService_ServiceDesc is the grpc.ServiceDesc for AudioService service.
@@ -116,12 +335,35 @@ func (x *audioServiceStreamAudioServer) Send(m *AudioResponse) error {
 var AudioService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "music.AudioService",
 	HandlerType: (*AudioServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "LikeAudio",
+			Handler:    _AudioService_LikeAudio_Handler,
+		},
+		{
+			MethodName: "SearchAudio",
+			Handler:    _AudioService_SearchAudio_Handler,
+		},
+		{
+			MethodName: "AddAudio",
+			Handler:    _AudioService_AddAudio_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "StreamAudio",
 			Handler:       _AudioService_StreamAudio_Handler,
 			ServerStreams: true,
+		},
+		{
+			StreamName:    "DownloadAudio",
+			Handler:       _AudioService_DownloadAudio_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "UploadAudio",
+			Handler:       _AudioService_UploadAudio_Handler,
+			ClientStreams: true,
 		},
 	},
 	Metadata: "audio/audio.proto",
