@@ -11,6 +11,7 @@ service AudioService {
   rpc SearchAudio (AudioSearchNameRequest) returns (AudioListResponse);
   rpc UploadAudio (stream AudioRequest) returns (AudioResponse);
   rpc DeleteAudioFromPlaylist (AudioDeleteFromPlaylistRequest) returns (AudioSuccessResponse);
+  rpc DeleteAudioFromFileSystem (AudioIDRequest) returns (AudioSuccessResponse);
 }
 
 message AudioSuccessResponse {

@@ -24,6 +24,7 @@ type AudioServiceClient interface {
 	SearchAudio(ctx context.Context, in *AudioSearchNameRequest, opts ...grpc.CallOption) (*AudioListResponse, error)
 	UploadAudio(ctx context.Context, opts ...grpc.CallOption) (AudioService_UploadAudioClient, error)
 	DeleteAudioFromPlaylist(ctx context.Context, in *AudioDeleteFromPlaylistRequest, opts ...grpc.CallOption) (*AudioSuccessResponse, error)
+	DeleteAudioFromFileSystem(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (*AudioSuccessResponse, error)
 }
 
 type audioServiceClient struct {
@@ -159,6 +160,15 @@ func (c *audioServiceClient) DeleteAudioFromPlaylist(ctx context.Context, in *Au
 	return out, nil
 }
 
+func (c *audioServiceClient) DeleteAudioFromFileSystem(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (*AudioSuccessResponse, error) {
+	out := new(AudioSuccessResponse)
+	err := c.cc.Invoke(ctx, "/music.AudioService/DeleteAudioFromFileSystem", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AudioServiceServer is the server API for AudioService service.
 // All implementations must embed UnimplementedAudioServiceServer
 // for forward compatibility
@@ -169,6 +179,7 @@ type AudioServiceServer interface {
 	SearchAudio(context.Context, *AudioSearchNameRequest) (*AudioListResponse, error)
 	UploadAudio(AudioService_UploadAudioServer) error
 	DeleteAudioFromPlaylist(context.Context, *AudioDeleteFromPlaylistRequest) (*AudioSuccessResponse, error)
+	DeleteAudioFromFileSystem(context.Context, *AudioIDRequest) (*AudioSuccessResponse, error)
 	mustEmbedUnimplementedAudioServiceServer()
 }
 
@@ -193,6 +204,9 @@ func (UnimplementedAudioServiceServer) UploadAudio(AudioService_UploadAudioServe
 }
 func (UnimplementedAudioServiceServer) DeleteAudioFromPlaylist(context.Context, *AudioDeleteFromPlaylistRequest) (*AudioSuccessResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAudioFromPlaylist not implemented")
+}
+func (UnimplementedAudioServiceServer) DeleteAudioFromFileSystem(context.Context, *AudioIDRequest) (*AudioSuccessResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAudioFromFileSystem not implemented")
 }
 func (UnimplementedAudioServiceServer) mustEmbedUnimplementedAudioServiceServer() {}
 
@@ -329,6 +343,24 @@ func _AudioService_DeleteAudioFromPlaylist_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AudioService_DeleteAudioFromFileSystem_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AudioIDRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AudioServiceServer).DeleteAudioFromFileSystem(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/music.AudioService/DeleteAudioFromFileSystem",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AudioServiceServer).DeleteAudioFromFileSystem(ctx, req.(*AudioIDRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AudioService_ServiceDesc is the grpc.ServiceDesc for AudioService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -347,6 +379,10 @@ var AudioService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteAudioFromPlaylist",
 			Handler:    _AudioService_DeleteAudioFromPlaylist_Handler,
+		},
+		{
+			MethodName: "DeleteAudioFromFileSystem",
+			Handler:    _AudioService_DeleteAudioFromFileSystem_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
