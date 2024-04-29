@@ -6,16 +6,26 @@ option go_package = "maselof/audio/v1;audiov1";
 
 service AudioService {
   rpc StreamAudio (AudioIDRequest) returns (stream AudioStream);
-  rpc LikeAudio (AudioLikeRequest) returns (AudioResponse);
+  rpc LikeAudio (AudioLikeRequest) returns (AudioSuccessResponse);
   rpc DownloadAudio (AudioIDRequest) returns (stream AudioStream);
   rpc SearchAudio (AudioSearchNameRequest) returns (AudioListResponse);
   rpc UploadAudio (stream AudioRequest) returns (AudioResponse);
+  rpc DeleteAudioFromPlaylist (AudioDeleteFromPlaylistRequest) returns (AudioSuccessResponse);
+}
+
+message AudioSuccessResponse {
+  bool success = 1;
+}
+
+message AudioDeleteFromPlaylistRequest {
+  int64 playlist_id = 1;
+  int64 audio_id = 2;
 }
 
 message AudioRequest {
-  string audio_name = 2;
-  string performer_name = 3;
-  AudioStream chunk = 4;
+  string audio_name = 1;
+  string performer_name = 2;
+  AudioStream chunk = 3;
 }
 
 message AudioLikeRequest {

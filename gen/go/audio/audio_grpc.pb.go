@@ -19,10 +19,11 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AudioServiceClient interface {
 	StreamAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (AudioService_StreamAudioClient, error)
-	LikeAudio(ctx context.Context, in *AudioLikeRequest, opts ...grpc.CallOption) (*AudioResponse, error)
+	LikeAudio(ctx context.Context, in *AudioLikeRequest, opts ...grpc.CallOption) (*AudioSuccessResponse, error)
 	DownloadAudio(ctx context.Context, in *AudioIDRequest, opts ...grpc.CallOption) (AudioService_DownloadAudioClient, error)
 	SearchAudio(ctx context.Context, in *AudioSearchNameRequest, opts ...grpc.CallOption) (*AudioListResponse, error)
 	UploadAudio(ctx context.Context, opts ...grpc.CallOption) (AudioService_UploadAudioClient, error)
+	DeleteAudioFromPlaylist(ctx context.Context, in *AudioDeleteFromPlaylistRequest, opts ...grpc.CallOption) (*AudioSuccessResponse, error)
 }
 
 type audioServiceClient struct {
@@ -65,8 +66,8 @@ func (x *audioServiceStreamAudioClient) Recv() (*AudioStream, error) {
 	return m, nil
 }
 
-func (c *audioServiceClient) LikeAudio(ctx context.Context, in *AudioLikeRequest, opts ...grpc.CallOption) (*AudioResponse, error) {
-	out := new(AudioResponse)
+func (c *audioServiceClient) LikeAudio(ctx context.Context, in *AudioLikeRequest, opts ...grpc.CallOption) (*AudioSuccessResponse, error) {
+	out := new(AudioSuccessResponse)
 	err := c.cc.Invoke(ctx, "/music.AudioService/LikeAudio", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -149,15 +150,25 @@ func (x *audioServiceUploadAudioClient) CloseAndRecv() (*AudioResponse, error) {
 	return m, nil
 }
 
+func (c *audioServiceClient) DeleteAudioFromPlaylist(ctx context.Context, in *AudioDeleteFromPlaylistRequest, opts ...grpc.CallOption) (*AudioSuccessResponse, error) {
+	out := new(AudioSuccessResponse)
+	err := c.cc.Invoke(ctx, "/music.AudioService/DeleteAudioFromPlaylist", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AudioServiceServer is the server API for AudioService service.
 // All implementations must embed UnimplementedAudioServiceServer
 // for forward compatibility
 type AudioServiceServer interface {
 	StreamAudio(*AudioIDRequest, AudioService_StreamAudioServer) error
-	LikeAudio(context.Context, *AudioLikeRequest) (*AudioResponse, error)
+	LikeAudio(context.Context, *AudioLikeRequest) (*AudioSuccessResponse, error)
 	DownloadAudio(*AudioIDRequest, AudioService_DownloadAudioServer) error
 	SearchAudio(context.Context, *AudioSearchNameRequest) (*AudioListResponse, error)
 	UploadAudio(AudioService_UploadAudioServer) error
+	DeleteAudioFromPlaylist(context.Context, *AudioDeleteFromPlaylistRequest) (*AudioSuccessResponse, error)
 	mustEmbedUnimplementedAudioServiceServer()
 }
 
@@ -168,7 +179,7 @@ type UnimplementedAudioServiceServer struct {
 func (UnimplementedAudioServiceServer) StreamAudio(*AudioIDRequest, AudioService_StreamAudioServer) error {
 	return status.Errorf(codes.Unimplemented, "method StreamAudio not implemented")
 }
-func (UnimplementedAudioServiceServer) LikeAudio(context.Context, *AudioLikeRequest) (*AudioResponse, error) {
+func (UnimplementedAudioServiceServer) LikeAudio(context.Context, *AudioLikeRequest) (*AudioSuccessResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LikeAudio not implemented")
 }
 func (UnimplementedAudioServiceServer) DownloadAudio(*AudioIDRequest, AudioService_DownloadAudioServer) error {
@@ -179,6 +190,9 @@ func (UnimplementedAudioServiceServer) SearchAudio(context.Context, *AudioSearch
 }
 func (UnimplementedAudioServiceServer) UploadAudio(AudioService_UploadAudioServer) error {
 	return status.Errorf(codes.Unimplemented, "method UploadAudio not implemented")
+}
+func (UnimplementedAudioServiceServer) DeleteAudioFromPlaylist(context.Context, *AudioDeleteFromPlaylistRequest) (*AudioSuccessResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAudioFromPlaylist not implemented")
 }
 func (UnimplementedAudioServiceServer) mustEmbedUnimplementedAudioServiceServer() {}
 
@@ -297,6 +311,24 @@ func (x *audioServiceUploadAudioServer) Recv() (*AudioRequest, error) {
 	return m, nil
 }
 
+func _AudioService_DeleteAudioFromPlaylist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AudioDeleteFromPlaylistRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AudioServiceServer).DeleteAudioFromPlaylist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/music.AudioService/DeleteAudioFromPlaylist",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AudioServiceServer).DeleteAudioFromPlaylist(ctx, req.(*AudioDeleteFromPlaylistRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AudioService_ServiceDesc is the grpc.ServiceDesc for AudioService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -311,6 +343,10 @@ var AudioService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SearchAudio",
 			Handler:    _AudioService_SearchAudio_Handler,
+		},
+		{
+			MethodName: "DeleteAudioFromPlaylist",
+			Handler:    _AudioService_DeleteAudioFromPlaylist_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

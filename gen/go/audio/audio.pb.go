@@ -20,20 +20,122 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type AudioSuccessResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Success bool `protobuf:"varint,1,opt,name=success,proto3" json:"success,omitempty"`
+}
+
+func (x *AudioSuccessResponse) Reset() {
+	*x = AudioSuccessResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_audio_audio_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AudioSuccessResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AudioSuccessResponse) ProtoMessage() {}
+
+func (x *AudioSuccessResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_audio_audio_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AudioSuccessResponse.ProtoReflect.Descriptor instead.
+func (*AudioSuccessResponse) Descriptor() ([]byte, []int) {
+	return file_audio_audio_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *AudioSuccessResponse) GetSuccess() bool {
+	if x != nil {
+		return x.Success
+	}
+	return false
+}
+
+type AudioDeleteFromPlaylistRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	PlaylistId int64 `protobuf:"varint,1,opt,name=playlist_id,json=playlistId,proto3" json:"playlist_id,omitempty"`
+	AudioId    int64 `protobuf:"varint,2,opt,name=audio_id,json=audioId,proto3" json:"audio_id,omitempty"`
+}
+
+func (x *AudioDeleteFromPlaylistRequest) Reset() {
+	*x = AudioDeleteFromPlaylistRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_audio_audio_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *AudioDeleteFromPlaylistRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AudioDeleteFromPlaylistRequest) ProtoMessage() {}
+
+func (x *AudioDeleteFromPlaylistRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_audio_audio_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AudioDeleteFromPlaylistRequest.ProtoReflect.Descriptor instead.
+func (*AudioDeleteFromPlaylistRequest) Descriptor() ([]byte, []int) {
+	return file_audio_audio_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *AudioDeleteFromPlaylistRequest) GetPlaylistId() int64 {
+	if x != nil {
+		return x.PlaylistId
+	}
+	return 0
+}
+
+func (x *AudioDeleteFromPlaylistRequest) GetAudioId() int64 {
+	if x != nil {
+		return x.AudioId
+	}
+	return 0
+}
+
 type AudioRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	AudioName     string       `protobuf:"bytes,2,opt,name=audio_name,json=audioName,proto3" json:"audio_name,omitempty"`
-	PerformerName string       `protobuf:"bytes,3,opt,name=performer_name,json=performerName,proto3" json:"performer_name,omitempty"`
-	Chunk         *AudioStream `protobuf:"bytes,4,opt,name=chunk,proto3" json:"chunk,omitempty"`
+	AudioName     string       `protobuf:"bytes,1,opt,name=audio_name,json=audioName,proto3" json:"audio_name,omitempty"`
+	PerformerName string       `protobuf:"bytes,2,opt,name=performer_name,json=performerName,proto3" json:"performer_name,omitempty"`
+	Chunk         *AudioStream `protobuf:"bytes,3,opt,name=chunk,proto3" json:"chunk,omitempty"`
 }
 
 func (x *AudioRequest) Reset() {
 	*x = AudioRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[0]
+		mi := &file_audio_audio_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +148,7 @@ func (x *AudioRequest) String() string {
 func (*AudioRequest) ProtoMessage() {}
 
 func (x *AudioRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[0]
+	mi := &file_audio_audio_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +161,7 @@ func (x *AudioRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AudioRequest.ProtoReflect.Descriptor instead.
 func (*AudioRequest) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{0}
+	return file_audio_audio_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *AudioRequest) GetAudioName() string {
@@ -95,7 +197,7 @@ type AudioLikeRequest struct {
 func (x *AudioLikeRequest) Reset() {
 	*x = AudioLikeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[1]
+		mi := &file_audio_audio_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -108,7 +210,7 @@ func (x *AudioLikeRequest) String() string {
 func (*AudioLikeRequest) ProtoMessage() {}
 
 func (x *AudioLikeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[1]
+	mi := &file_audio_audio_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -121,7 +223,7 @@ func (x *AudioLikeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AudioLikeRequest.ProtoReflect.Descriptor instead.
 func (*AudioLikeRequest) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{1}
+	return file_audio_audio_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *AudioLikeRequest) GetAudioId() int64 {
@@ -149,7 +251,7 @@ type AudioIDRequest struct {
 func (x *AudioIDRequest) Reset() {
 	*x = AudioIDRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[2]
+		mi := &file_audio_audio_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -162,7 +264,7 @@ func (x *AudioIDRequest) String() string {
 func (*AudioIDRequest) ProtoMessage() {}
 
 func (x *AudioIDRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[2]
+	mi := &file_audio_audio_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -175,7 +277,7 @@ func (x *AudioIDRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AudioIDRequest.ProtoReflect.Descriptor instead.
 func (*AudioIDRequest) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{2}
+	return file_audio_audio_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *AudioIDRequest) GetAudioId() int64 {
@@ -196,7 +298,7 @@ type AudioSearchNameRequest struct {
 func (x *AudioSearchNameRequest) Reset() {
 	*x = AudioSearchNameRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[3]
+		mi := &file_audio_audio_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -209,7 +311,7 @@ func (x *AudioSearchNameRequest) String() string {
 func (*AudioSearchNameRequest) ProtoMessage() {}
 
 func (x *AudioSearchNameRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[3]
+	mi := &file_audio_audio_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -222,7 +324,7 @@ func (x *AudioSearchNameRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AudioSearchNameRequest.ProtoReflect.Descriptor instead.
 func (*AudioSearchNameRequest) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{3}
+	return file_audio_audio_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *AudioSearchNameRequest) GetName() string {
@@ -243,7 +345,7 @@ type AudioStream struct {
 func (x *AudioStream) Reset() {
 	*x = AudioStream{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[4]
+		mi := &file_audio_audio_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -256,7 +358,7 @@ func (x *AudioStream) String() string {
 func (*AudioStream) ProtoMessage() {}
 
 func (x *AudioStream) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[4]
+	mi := &file_audio_audio_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -269,7 +371,7 @@ func (x *AudioStream) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AudioStream.ProtoReflect.Descriptor instead.
 func (*AudioStream) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{4}
+	return file_audio_audio_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *AudioStream) GetAudioChunk() []byte {
@@ -290,7 +392,7 @@ type AudioListResponse struct {
 func (x *AudioListResponse) Reset() {
 	*x = AudioListResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[5]
+		mi := &file_audio_audio_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -303,7 +405,7 @@ func (x *AudioListResponse) String() string {
 func (*AudioListResponse) ProtoMessage() {}
 
 func (x *AudioListResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[5]
+	mi := &file_audio_audio_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -316,7 +418,7 @@ func (x *AudioListResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AudioListResponse.ProtoReflect.Descriptor instead.
 func (*AudioListResponse) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{5}
+	return file_audio_audio_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *AudioListResponse) GetItems() []*AudioRequest {
@@ -339,7 +441,7 @@ type AudioResponse struct {
 func (x *AudioResponse) Reset() {
 	*x = AudioResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[6]
+		mi := &file_audio_audio_proto_msgTypes[8]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -352,7 +454,7 @@ func (x *AudioResponse) String() string {
 func (*AudioResponse) ProtoMessage() {}
 
 func (x *AudioResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[6]
+	mi := &file_audio_audio_proto_msgTypes[8]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -365,7 +467,7 @@ func (x *AudioResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AudioResponse.ProtoReflect.Descriptor instead.
 func (*AudioResponse) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{6}
+	return file_audio_audio_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *AudioResponse) GetAudioId() int64 {
@@ -402,7 +504,7 @@ type UserRegRequest struct {
 func (x *UserRegRequest) Reset() {
 	*x = UserRegRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[7]
+		mi := &file_audio_audio_proto_msgTypes[9]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -415,7 +517,7 @@ func (x *UserRegRequest) String() string {
 func (*UserRegRequest) ProtoMessage() {}
 
 func (x *UserRegRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[7]
+	mi := &file_audio_audio_proto_msgTypes[9]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -428,7 +530,7 @@ func (x *UserRegRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserRegRequest.ProtoReflect.Descriptor instead.
 func (*UserRegRequest) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{7}
+	return file_audio_audio_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *UserRegRequest) GetUsername() string {
@@ -464,7 +566,7 @@ type UserLogRequest struct {
 func (x *UserLogRequest) Reset() {
 	*x = UserLogRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[8]
+		mi := &file_audio_audio_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -477,7 +579,7 @@ func (x *UserLogRequest) String() string {
 func (*UserLogRequest) ProtoMessage() {}
 
 func (x *UserLogRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[8]
+	mi := &file_audio_audio_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -490,7 +592,7 @@ func (x *UserLogRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserLogRequest.ProtoReflect.Descriptor instead.
 func (*UserLogRequest) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{8}
+	return file_audio_audio_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *UserLogRequest) GetUsername() string {
@@ -519,7 +621,7 @@ type UserResponse struct {
 func (x *UserResponse) Reset() {
 	*x = UserResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_audio_audio_proto_msgTypes[9]
+		mi := &file_audio_audio_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -532,7 +634,7 @@ func (x *UserResponse) String() string {
 func (*UserResponse) ProtoMessage() {}
 
 func (x *UserResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_audio_audio_proto_msgTypes[9]
+	mi := &file_audio_audio_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -545,7 +647,7 @@ func (x *UserResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserResponse.ProtoReflect.Descriptor instead.
 func (*UserResponse) Descriptor() ([]byte, []int) {
-	return file_audio_audio_proto_rawDescGZIP(), []int{9}
+	return file_audio_audio_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *UserResponse) GetUsername() string {
@@ -566,13 +668,22 @@ var File_audio_audio_proto protoreflect.FileDescriptor
 
 var file_audio_audio_proto_rawDesc = []byte{
 	0x0a, 0x11, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x2f, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x12, 0x05, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x22, 0x7e, 0x0a, 0x0c, 0x41, 0x75,
+	0x6f, 0x74, 0x6f, 0x12, 0x05, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x22, 0x30, 0x0a, 0x14, 0x41, 0x75,
+	0x64, 0x69, 0x6f, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73, 0x22, 0x5c, 0x0a, 0x1e,
+	0x41, 0x75, 0x64, 0x69, 0x6f, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x46, 0x72, 0x6f, 0x6d, 0x50,
+	0x6c, 0x61, 0x79, 0x6c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1f,
+	0x0a, 0x0b, 0x70, 0x6c, 0x61, 0x79, 0x6c, 0x69, 0x73, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x03, 0x52, 0x0a, 0x70, 0x6c, 0x61, 0x79, 0x6c, 0x69, 0x73, 0x74, 0x49, 0x64, 0x12,
+	0x19, 0x0a, 0x08, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x07, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x49, 0x64, 0x22, 0x7e, 0x0a, 0x0c, 0x41, 0x75,
 	0x64, 0x69, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x61, 0x75,
-	0x64, 0x69, 0x6f, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
+	0x64, 0x69, 0x6f, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
 	0x61, 0x75, 0x64, 0x69, 0x6f, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x25, 0x0a, 0x0e, 0x70, 0x65, 0x72,
-	0x66, 0x6f, 0x72, 0x6d, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x66, 0x6f, 0x72, 0x6d, 0x65, 0x72, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
 	0x09, 0x52, 0x0d, 0x70, 0x65, 0x72, 0x66, 0x6f, 0x72, 0x6d, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65,
-	0x12, 0x28, 0x0a, 0x05, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x12, 0x28, 0x0a, 0x05, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
 	0x12, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x53, 0x74, 0x72,
 	0x65, 0x61, 0x6d, 0x52, 0x05, 0x63, 0x68, 0x75, 0x6e, 0x6b, 0x22, 0x49, 0x0a, 0x10, 0x41, 0x75,
 	0x64, 0x69, 0x6f, 0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x19,
@@ -615,41 +726,48 @@ var file_audio_audio_proto_rawDesc = []byte{
 	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x75, 0x73, 0x65,
 	0x72, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x69, 0x73, 0x5f, 0x70, 0x65, 0x72, 0x66,
 	0x6f, 0x72, 0x6d, 0x65, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0b, 0x69, 0x73, 0x50,
-	0x65, 0x72, 0x66, 0x6f, 0x72, 0x6d, 0x65, 0x72, 0x32, 0xc8, 0x02, 0x0a, 0x0c, 0x41, 0x75, 0x64,
+	0x65, 0x72, 0x66, 0x6f, 0x72, 0x6d, 0x65, 0x72, 0x32, 0xae, 0x03, 0x0a, 0x0c, 0x41, 0x75, 0x64,
 	0x69, 0x6f, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3a, 0x0a, 0x0b, 0x53, 0x74, 0x72,
 	0x65, 0x61, 0x6d, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x12, 0x15, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63,
 	0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x49, 0x44, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
 	0x12, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x53, 0x74, 0x72,
-	0x65, 0x61, 0x6d, 0x30, 0x01, 0x12, 0x3a, 0x0a, 0x09, 0x4c, 0x69, 0x6b, 0x65, 0x41, 0x75, 0x64,
+	0x65, 0x61, 0x6d, 0x30, 0x01, 0x12, 0x41, 0x0a, 0x09, 0x4c, 0x69, 0x6b, 0x65, 0x41, 0x75, 0x64,
 	0x69, 0x6f, 0x12, 0x17, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f,
-	0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x6d, 0x75,
-	0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x3c, 0x0a, 0x0d, 0x44, 0x6f, 0x77, 0x6e, 0x6c, 0x6f, 0x61, 0x64, 0x41, 0x75, 0x64,
-	0x69, 0x6f, 0x12, 0x15, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f,
-	0x49, 0x44, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x6d, 0x75, 0x73, 0x69,
-	0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x53, 0x74, 0x72, 0x65, 0x61, 0x6d, 0x30, 0x01, 0x12,
-	0x46, 0x0a, 0x0b, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x12, 0x1d,
-	0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x53, 0x65, 0x61, 0x72,
-	0x63, 0x68, 0x4e, 0x61, 0x6d, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e,
-	0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x4c, 0x69, 0x73, 0x74, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3a, 0x0a, 0x0b, 0x55, 0x70, 0x6c, 0x6f, 0x61,
-	0x64, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x12, 0x13, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41,
-	0x75, 0x64, 0x69, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x6d, 0x75,
-	0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x28, 0x01, 0x32, 0xb6, 0x01, 0x0a, 0x05, 0x55, 0x73, 0x65, 0x72, 0x73, 0x12, 0x3a, 0x0a,
-	0x0c, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55, 0x73, 0x65, 0x72, 0x12, 0x15, 0x2e,
-	0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x67, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x55, 0x73, 0x65,
-	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x37, 0x0a, 0x09, 0x4c, 0x6f, 0x67,
-	0x69, 0x6e, 0x55, 0x73, 0x65, 0x72, 0x12, 0x15, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x55,
+	0x4c, 0x69, 0x6b, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x6d, 0x75,
+	0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3c, 0x0a, 0x0d, 0x44, 0x6f, 0x77, 0x6e,
+	0x6c, 0x6f, 0x61, 0x64, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x12, 0x15, 0x2e, 0x6d, 0x75, 0x73, 0x69,
+	0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x49, 0x44, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x12, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x53, 0x74,
+	0x72, 0x65, 0x61, 0x6d, 0x30, 0x01, 0x12, 0x46, 0x0a, 0x0b, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68,
+	0x41, 0x75, 0x64, 0x69, 0x6f, 0x12, 0x1d, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75,
+	0x64, 0x69, 0x6f, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x4e, 0x61, 0x6d, 0x65, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64,
+	0x69, 0x6f, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3a,
+	0x0a, 0x0b, 0x55, 0x70, 0x6c, 0x6f, 0x61, 0x64, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x12, 0x13, 0x2e,
+	0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x14, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x28, 0x01, 0x12, 0x5d, 0x0a, 0x17, 0x44, 0x65,
+	0x6c, 0x65, 0x74, 0x65, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x46, 0x72, 0x6f, 0x6d, 0x50, 0x6c, 0x61,
+	0x79, 0x6c, 0x69, 0x73, 0x74, 0x12, 0x25, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75,
+	0x64, 0x69, 0x6f, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x46, 0x72, 0x6f, 0x6d, 0x50, 0x6c, 0x61,
+	0x79, 0x6c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x6d,
+	0x75, 0x73, 0x69, 0x63, 0x2e, 0x41, 0x75, 0x64, 0x69, 0x6f, 0x53, 0x75, 0x63, 0x63, 0x65, 0x73,
+	0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0xb6, 0x01, 0x0a, 0x05, 0x55, 0x73,
+	0x65, 0x72, 0x73, 0x12, 0x3a, 0x0a, 0x0c, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x55,
+	0x73, 0x65, 0x72, 0x12, 0x15, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x6d, 0x75, 0x73,
+	0x69, 0x63, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x37, 0x0a, 0x09, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x55, 0x73, 0x65, 0x72, 0x12, 0x15, 0x2e, 0x6d,
+	0x75, 0x73, 0x69, 0x63, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75,
+	0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x38, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65,
+	0x74, 0x65, 0x55, 0x73, 0x65, 0x72, 0x12, 0x15, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x55,
 	0x73, 0x65, 0x72, 0x4c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e,
 	0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x38, 0x0a, 0x0a, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x55, 0x73, 0x65, 0x72,
-	0x12, 0x15, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x4c, 0x6f, 0x67,
-	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x13, 0x2e, 0x6d, 0x75, 0x73, 0x69, 0x63, 0x2e,
-	0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x1a, 0x5a, 0x18,
-	0x6d, 0x61, 0x73, 0x65, 0x6c, 0x6f, 0x66, 0x2f, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x2f, 0x76, 0x31,
-	0x3b, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x65, 0x42, 0x1a, 0x5a, 0x18, 0x6d, 0x61, 0x73, 0x65, 0x6c, 0x6f, 0x66, 0x2f, 0x61, 0x75,
+	0x64, 0x69, 0x6f, 0x2f, 0x76, 0x31, 0x3b, 0x61, 0x75, 0x64, 0x69, 0x6f, 0x76, 0x31, 0x62, 0x06,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -664,40 +782,44 @@ func file_audio_audio_proto_rawDescGZIP() []byte {
 	return file_audio_audio_proto_rawDescData
 }
 
-var file_audio_audio_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_audio_audio_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_audio_audio_proto_goTypes = []interface{}{
-	(*AudioRequest)(nil),           // 0: music.AudioRequest
-	(*AudioLikeRequest)(nil),       // 1: music.AudioLikeRequest
-	(*AudioIDRequest)(nil),         // 2: music.AudioIDRequest
-	(*AudioSearchNameRequest)(nil), // 3: music.AudioSearchNameRequest
-	(*AudioStream)(nil),            // 4: music.AudioStream
-	(*AudioListResponse)(nil),      // 5: music.AudioListResponse
-	(*AudioResponse)(nil),          // 6: music.AudioResponse
-	(*UserRegRequest)(nil),         // 7: music.UserRegRequest
-	(*UserLogRequest)(nil),         // 8: music.UserLogRequest
-	(*UserResponse)(nil),           // 9: music.UserResponse
+	(*AudioSuccessResponse)(nil),           // 0: music.AudioSuccessResponse
+	(*AudioDeleteFromPlaylistRequest)(nil), // 1: music.AudioDeleteFromPlaylistRequest
+	(*AudioRequest)(nil),                   // 2: music.AudioRequest
+	(*AudioLikeRequest)(nil),               // 3: music.AudioLikeRequest
+	(*AudioIDRequest)(nil),                 // 4: music.AudioIDRequest
+	(*AudioSearchNameRequest)(nil),         // 5: music.AudioSearchNameRequest
+	(*AudioStream)(nil),                    // 6: music.AudioStream
+	(*AudioListResponse)(nil),              // 7: music.AudioListResponse
+	(*AudioResponse)(nil),                  // 8: music.AudioResponse
+	(*UserRegRequest)(nil),                 // 9: music.UserRegRequest
+	(*UserLogRequest)(nil),                 // 10: music.UserLogRequest
+	(*UserResponse)(nil),                   // 11: music.UserResponse
 }
 var file_audio_audio_proto_depIdxs = []int32{
-	4,  // 0: music.AudioRequest.chunk:type_name -> music.AudioStream
-	0,  // 1: music.AudioListResponse.items:type_name -> music.AudioRequest
-	2,  // 2: music.AudioService.StreamAudio:input_type -> music.AudioIDRequest
-	1,  // 3: music.AudioService.LikeAudio:input_type -> music.AudioLikeRequest
-	2,  // 4: music.AudioService.DownloadAudio:input_type -> music.AudioIDRequest
-	3,  // 5: music.AudioService.SearchAudio:input_type -> music.AudioSearchNameRequest
-	0,  // 6: music.AudioService.UploadAudio:input_type -> music.AudioRequest
-	7,  // 7: music.Users.RegisterUser:input_type -> music.UserRegRequest
-	8,  // 8: music.Users.LoginUser:input_type -> music.UserLogRequest
-	8,  // 9: music.Users.DeleteUser:input_type -> music.UserLogRequest
-	4,  // 10: music.AudioService.StreamAudio:output_type -> music.AudioStream
-	6,  // 11: music.AudioService.LikeAudio:output_type -> music.AudioResponse
-	4,  // 12: music.AudioService.DownloadAudio:output_type -> music.AudioStream
-	5,  // 13: music.AudioService.SearchAudio:output_type -> music.AudioListResponse
-	6,  // 14: music.AudioService.UploadAudio:output_type -> music.AudioResponse
-	9,  // 15: music.Users.RegisterUser:output_type -> music.UserResponse
-	9,  // 16: music.Users.LoginUser:output_type -> music.UserResponse
-	9,  // 17: music.Users.DeleteUser:output_type -> music.UserResponse
-	10, // [10:18] is the sub-list for method output_type
-	2,  // [2:10] is the sub-list for method input_type
+	6,  // 0: music.AudioRequest.chunk:type_name -> music.AudioStream
+	2,  // 1: music.AudioListResponse.items:type_name -> music.AudioRequest
+	4,  // 2: music.AudioService.StreamAudio:input_type -> music.AudioIDRequest
+	3,  // 3: music.AudioService.LikeAudio:input_type -> music.AudioLikeRequest
+	4,  // 4: music.AudioService.DownloadAudio:input_type -> music.AudioIDRequest
+	5,  // 5: music.AudioService.SearchAudio:input_type -> music.AudioSearchNameRequest
+	2,  // 6: music.AudioService.UploadAudio:input_type -> music.AudioRequest
+	1,  // 7: music.AudioService.DeleteAudioFromPlaylist:input_type -> music.AudioDeleteFromPlaylistRequest
+	9,  // 8: music.Users.RegisterUser:input_type -> music.UserRegRequest
+	10, // 9: music.Users.LoginUser:input_type -> music.UserLogRequest
+	10, // 10: music.Users.DeleteUser:input_type -> music.UserLogRequest
+	6,  // 11: music.AudioService.StreamAudio:output_type -> music.AudioStream
+	0,  // 12: music.AudioService.LikeAudio:output_type -> music.AudioSuccessResponse
+	6,  // 13: music.AudioService.DownloadAudio:output_type -> music.AudioStream
+	7,  // 14: music.AudioService.SearchAudio:output_type -> music.AudioListResponse
+	8,  // 15: music.AudioService.UploadAudio:output_type -> music.AudioResponse
+	0,  // 16: music.AudioService.DeleteAudioFromPlaylist:output_type -> music.AudioSuccessResponse
+	11, // 17: music.Users.RegisterUser:output_type -> music.UserResponse
+	11, // 18: music.Users.LoginUser:output_type -> music.UserResponse
+	11, // 19: music.Users.DeleteUser:output_type -> music.UserResponse
+	11, // [11:20] is the sub-list for method output_type
+	2,  // [2:11] is the sub-list for method input_type
 	2,  // [2:2] is the sub-list for extension type_name
 	2,  // [2:2] is the sub-list for extension extendee
 	0,  // [0:2] is the sub-list for field type_name
@@ -710,7 +832,7 @@ func file_audio_audio_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_audio_audio_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AudioRequest); i {
+			switch v := v.(*AudioSuccessResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -722,7 +844,7 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AudioLikeRequest); i {
+			switch v := v.(*AudioDeleteFromPlaylistRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -734,7 +856,7 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AudioIDRequest); i {
+			switch v := v.(*AudioRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -746,7 +868,7 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AudioSearchNameRequest); i {
+			switch v := v.(*AudioLikeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -758,7 +880,7 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AudioStream); i {
+			switch v := v.(*AudioIDRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -770,7 +892,7 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AudioListResponse); i {
+			switch v := v.(*AudioSearchNameRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -782,7 +904,7 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AudioResponse); i {
+			switch v := v.(*AudioStream); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -794,7 +916,7 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserRegRequest); i {
+			switch v := v.(*AudioListResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -806,7 +928,7 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UserLogRequest); i {
+			switch v := v.(*AudioResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -818,6 +940,30 @@ func file_audio_audio_proto_init() {
 			}
 		}
 		file_audio_audio_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserRegRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_audio_audio_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UserLogRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_audio_audio_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UserResponse); i {
 			case 0:
 				return &v.state
@@ -836,7 +982,7 @@ func file_audio_audio_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_audio_audio_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   10,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   2,
 		},
